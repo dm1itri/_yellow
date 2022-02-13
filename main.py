@@ -1,39 +1,50 @@
 import sys
 
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel
-from PyQt5.QtWidgets import QWidget, QTableView, QApplication
+from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QTableWidgetItem, QTableWidget
+from dialog import MyWidget
+from sqlite3 import connect
 
 
 class Example(QWidget):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.i()
 
-    def initUI(self):
-        # Зададим тип базы данных
-        db = QSqlDatabase.addDatabase('QSQLITE')
-        # Укажем имя базы данных
-        db.setDatabaseName('coffee.sqlite')
-        # И откроем подключение
-        db.open()
+    def i(self):
+        self.resize(650, 500)
+        self.setWindowTitle('Капучино')
 
-        # QTableView - виджет для отображения данных из базы
-        view = QTableView(self)
-        # Создадим объект QSqlTableModel,
-        # зададим таблицу, с которой он будет работать,
-        #  и выберем все данные
-        model = QSqlTableModel(self, db)
-        model.setTable('coff')
-        model.select()
+        # Получим результат запроса,
+        # который ввели в текстовое поле
+        res = connect('coffee.sqlite').cursor().execute('SELECT * from coff').fetchall()
+        # Заполним размеры таблицы
+        self.tableWidget = QTableWidget(self)
+        self.tableWidget.setColumnCount(7)
+        self.tableWidget.setRowCount(len(res))
+        self.tableWidget.resize(650, 400)
+        self.tableWidget.setHorizontalHeaderLabels(['ID', 'name', 'degree_of_roasting', 'ground_in_grains', 'taste_description', 'price', 'packing_volume'])
 
-        # Для отображения данных на виджете
-        # свяжем его и нашу модель данных
-        view.setModel(model)
-        view.move(10, 10)
-        view.resize(617, 315)
+        for i, row in enumerate(res):
+            for j, elem in enumerate(row):
+                self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
 
-        self.setGeometry(300, 100, 650, 450)
-        self.setWindowTitle('Пример работы с QtSql')
+        self.pushButton = QPushButton(self)
+        self.pushButton.setText('Изменение/Добавление')
+        self.pushButton.move(500, 450)
+        self.pushButton.clicked.connect(self.run_dialog)
+
+    def run_dialog(self):
+        a = MyWidget(parent=self)
+        try:
+            a.show()
+            a.exec_()
+            res = connect('coffee.sqlite').cursor().execute('SELECT * from coff').fetchall()
+            self.tableWidget.setRowCount(len(res))
+            for i, row in enumerate(res):
+                for j, elem in enumerate(row):
+                    self.tableWidget.setItem(i, j, QTableWidgetItem(str(elem)))
+        except Exception as e:
+            print(e)
 
 
 if __name__ == '__main__':

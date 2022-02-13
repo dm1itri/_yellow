@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>596</width>
+    <height>145</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>601</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <row>
+    <property name="text">
+     <string>Изм/Доб</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>id</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string> name</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>degree of roasting</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>ground/in grains</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>taste of description</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>price </string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>packing_volume</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>100</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
